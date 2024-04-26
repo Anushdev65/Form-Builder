@@ -18,6 +18,11 @@ const blogPostSchema = Schema(
       trim: true,
     },
 
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
