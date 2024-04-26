@@ -1,0 +1,26 @@
+{
+  "name": "ramailotechtask",
+  "version": "1.0.0",
+  "description": "blog post creation project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/index.js",
+    "server": "nodemon backend/index.js",
+    "server-inspect": "nodemon --inspect backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "inspect": "concurrently \"npm run server-inspect\" \"npm run client\""
+  },
+  "author": "anushdev",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.2"
+  }
+}
