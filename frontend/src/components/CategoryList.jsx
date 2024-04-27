@@ -41,18 +41,12 @@ const CategoryList = () => {
   const [page, setPage] = useState(1);
   const [openAddCategoryModal, setOpenAddCategoryModal] = useState(false);
 
-  useEffect(() => {
-    // Fetch more data when the page changes (for pagination)
-    // Or when reaching the bottom of the page (for infinite scroll)
-    // Add your logic here
-  }, [page]);
-
   return (
     <CenteredContainer>
       <ListContainer>
         <InfiniteScroll
           dataLength={categories?.length || 0}
-          hasMore={true} // Set to true if there are more categories to load
+          hasMore={true}
           loader={<CircularProgress />}
           endMessage={
             <Typography variant="body2">No more categories to load</Typography>

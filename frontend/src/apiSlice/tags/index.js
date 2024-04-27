@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrl } from "../../config";
 import { getLevelInfo } from "../../localStorage/localStorage";
 
-export const blogPostApi = createApi({
-  reducerPath: "blogPostApi",
+export const tagsApi = createApi({
+  reducerPath: "tagsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
     prepareHeaders: (headers) => {
@@ -17,63 +17,63 @@ export const blogPostApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    createBlogPost: builder.mutation({
+    createTags: builder.mutation({
       query: (body) => {
         return {
-          url: `/blog-post`,
+          url: `/tags`,
           method: "POST",
           body: body,
         };
       },
-      invalidatesTags: ["getAllBlogPost"],
+      invalidatesTags: ["getAllTags"],
     }),
 
-    getAllBlogPost: builder.query({
+    getAllTags: builder.query({
       query: (query) => {
         return {
-          url: `/blog-post`,
+          url: `/tags`,
           method: "GET",
         };
       },
-      providesTags: ["getAllBlogPost"],
+      providesTags: ["getAllTags"],
     }),
 
-    updateBlogPost: builder.mutation({
+    updateTags: builder.mutation({
       query: ({ body, id }) => {
         return {
-          url: `/blog-post/${id}`,
+          url: `/tags/${id}`,
           method: "PATCH",
           body: body,
         };
       },
-      invalidatesTags: ["getAllBlogPost"],
+      invalidatesTags: ["getAllTags"],
     }),
 
-    getBlogPostById: builder.query({
+    getTagsById: builder.query({
       query: (id) => {
         return {
-          url: `/blog-post/${id}`,
+          url: `/tags/${id}`,
           method: "GET",
         };
       },
     }),
 
-    deleteBlogPost: builder.mutation({
+    deleteTags: builder.mutation({
       query: (id) => {
         return {
-          url: `/blog-post/${id}`,
+          url: `/tags/${id}`,
           method: "DELETE",
         };
       },
-      invalidatesTags: ["getAllBlogPost"],
+      invalidatesTags: ["getAllTags"],
     }),
   }),
 });
 
 export const {
-  useCreateBlogPostMutation,
-  useGetAllBlogPostQuery,
-  useDeleteBlogPostMutation,
-  useUpdateBlogPostMutation,
-  useGetBlogPostByIdQuery,
-} = blogPostApi;
+  useCreateTagsMutation,
+  useGetAllTagsQuery,
+  useDeleteTagsMutation,
+  useUpdateTagsMutation,
+  useGetTagsByIdQuery,
+} = tagsApi;

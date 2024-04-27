@@ -8,7 +8,7 @@ const categoryRouter = Router();
 categoryRouter
   .route("/")
   .post(isValidToken, categoryController.createCategory)
-  .get(isValidToken, categoryController.readAllCategory);
+  .get(categoryController.readAllCategory);
 
 categoryRouter
   .route("/:id")
