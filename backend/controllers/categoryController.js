@@ -45,8 +45,9 @@ export let readSpecificCategory = tryCatchWrapper(async (req, res) => {
 
 export let readAllCategory = tryCatchWrapper(async (req, res, next) => {
   let find = {};
+
   req.find = find;
-  req.service = categoryService.listAllCategoryService;
+  req.service = categoryService.ListAllCategoryService;
 
   next();
 });

@@ -8,7 +8,7 @@ const tagsRouter = Router();
 tagsRouter
   .route("/")
   .post(isValidToken, tagsController.createtags)
-  .get(isValidToken, tagsController.readAlltags, sortFilterPagination);
+  .get(tagsController.readAlltags);
 
 tagsRouter
   .route("/:id")

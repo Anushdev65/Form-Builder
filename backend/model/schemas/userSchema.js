@@ -15,10 +15,6 @@ const userSchema = Schema(
       required: true,
     },
 
-    dateOfBirth: {
-      type: Date,
-    },
-
     password: {
       type: String,
       trim: true,

@@ -26,9 +26,7 @@ export const createUser = tryCatchWrapper(async (req, res) => {
       body: {
         email: body.email,
         password: passHashedPassword,
-        firstName: body.firstName,
-        lastName: body.lastName,
-        phoneNumber: body.phoneNumber,
+        userName: body.userName,
       },
     });
 

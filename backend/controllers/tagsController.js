@@ -33,7 +33,7 @@ export let updatetags = tryCatchWrapper(async (req, res) => {
 export let readSpecifictags = tryCatchWrapper(async (req, res) => {
   let id = req.params.id;
 
-  let data = await tagsService.deleteSpecificTagsService({ id });
+  let data = await tagsService.detailSpecificTagsService({ id });
 
   successResponseData({
     res,
@@ -46,7 +46,7 @@ export let readSpecifictags = tryCatchWrapper(async (req, res) => {
 export let readAlltags = tryCatchWrapper(async (req, res, next) => {
   let find = {};
   req.find = find;
-  req.service = tagsService.listAllTagsService;
+  req.service = tagsService.readAllTagsService;
 
   next();
 });

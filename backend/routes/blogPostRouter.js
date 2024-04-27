@@ -5,12 +5,12 @@ import { sortFilterPagination } from "../middlewares/sortSelectPage.js";
 
 const blogPostRouter = Router();
 
-commentsRouter
+blogPostRouter
   .route("/")
   .post(isValidToken, blogPostController.createBlogPost)
-  .get(isValidToken, blogPostController.readAllBlogPosts, sortFilterPagination);
+  .get(isValidToken, blogPostController.readAllBlogPosts);
 
-commentsRouter
+blogPostRouter
   .route("/:id")
   .patch(isValidToken, blogPostController.updateBlogPost)
   .get(isValidToken, blogPostController.readSpecificBlogPost)

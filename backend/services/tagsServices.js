@@ -2,7 +2,7 @@ import { Tags } from "../model/model.js";
 
 export const createTagsService = async ({ body }) => Tags.create(body);
 
-export const listAllTagsService = async ({
+export const readAllTagsService = async ({
   find = {},
   sort = "",
   limit = "",
