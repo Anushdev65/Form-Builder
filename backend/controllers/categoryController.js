@@ -1,6 +1,7 @@
 import { HttpStatus } from "../constant/constant.js";
 import successResponseData from "../helper/successResponseData.js";
 import tryCatchWrapper from "../middlewares/tryCatchWrapper.js";
+import { Category } from "../model/model.js";
 import { categoryService } from "../services/index.js";
 
 export let createCategory = tryCatchWrapper(async (req, res) => {
@@ -43,14 +44,17 @@ export let readSpecificCategory = tryCatchWrapper(async (req, res) => {
   });
 });
 
-export let readAllCategory = tryCatchWrapper(async (req, res, next) => {
-  let find = {};
-
-  req.find = find;
-  req.service = categoryService.ListAllCategoryService;
-
-  next();
-});
+export const readAllCategory = async (req, res) => {
+  try {
+    const categoryData = await Category.find();
+    res.json(categoryData);
+  } catch (error) {
+    res.json({
+      message: "Error occured",
+      data: error,
+    });
+  }
+};
 
 export let deleteSpecificCategory = tryCatchWrapper(async (req, res) => {
   let id = req.params.id;

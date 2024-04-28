@@ -1,6 +1,7 @@
 import { HttpStatus } from "../constant/constant.js";
 import successResponseData from "../helper/successResponseData.js";
 import tryCatchWrapper from "../middlewares/tryCatchWrapper.js";
+import { BlogPost } from "../model/model.js";
 import { blogPostService } from "../services/index.js";
 
 export let createBlogPost = tryCatchWrapper(async (req, res) => {
@@ -43,14 +44,17 @@ export let readSpecificBlogPost = tryCatchWrapper(async (req, res) => {
   });
 });
 
-export let readAllBlogPosts = tryCatchWrapper(async (req, res, next) => {
-  let find = {};
-  req.find = find;
-  req.service = blogPostService.listAllBlogPostService;
-
-  next();
-});
-
+export let readAllBlogPosts = async (req, res) => {
+  try {
+    const getBlogPost = await BlogPost.find();
+    res.json(getBlogPost);
+  } catch (error) {
+    res.json({
+      message: "Error occurent",
+      data: error,
+    });
+  }
+};
 export let deleteSpecificBlogPost = tryCatchWrapper(async (req, res) => {
   let id = req.params.id;
   let data = await blogPostService.detailSpecificBlogPostService({ id });

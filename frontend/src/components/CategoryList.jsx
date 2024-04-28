@@ -47,7 +47,6 @@ const CategoryList = () => {
         <InfiniteScroll
           dataLength={categories?.length || 0}
           hasMore={true}
-          loader={<CircularProgress />}
           endMessage={
             <Typography variant="body2">No more categories to load</Typography>
           }

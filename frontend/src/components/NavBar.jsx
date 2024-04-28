@@ -2,7 +2,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import FeedbackIcon from "@mui/icons-material/Feedback";
-import FoodBankOutlinedIcon from "@mui/icons-material/FoodBankOutlined";
+import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -17,12 +17,14 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import StyleIcon from "@mui/icons-material/Style";
 import { styled, useTheme } from "@mui/material/styles";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { useLogOutMutation } from "../apiSlice/user";
 import * as React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import "../styles/navbar.css";
+import CategoryIcon from "@mui/icons-material/Category";
 import { removeLevelInfo } from "../localStorage/localStorage";
 // import { useLogoutUserMutation } from "../../services/api/user";
 // import { removeLevelInfo } from "../../localStorage/localStorage";
@@ -31,18 +33,17 @@ const drawerWidth = 240;
 const navData = [
   {
     name: "Home",
-    icon: <FoodBankOutlinedIcon />,
-    // link: "/form",
+    icon: <HomeIcon />,
+    link: "/home",
   },
   {
     name: "Category",
-    icon: <FeedbackIcon />,
+    icon: <CategoryIcon />,
     link: "/category",
   },
   {
     name: "Tags",
-    icon: <AccountBoxIcon />,
-    // link: "/myprofile",
+    icon: <StyleIcon />,
   },
 ];
 

@@ -2,7 +2,7 @@ import { config } from "dotenv";
 
 config();
 
-export const port = process.env.PORT;
+export const port = process.env.PORT || "8000";
 export const dbUrl = process.env.DB_URL || "mongodb://0.0.0.0:27017/DB_URL";
 
 export const apiVersion = process.env.API_VERSION || "/api/v1";

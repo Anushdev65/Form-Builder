@@ -2,7 +2,7 @@ import { Category } from "../model/model.js";
 
 export const createCategoryService = async ({ body }) => Category.create(body);
 
-export const ListAllCategoryService = async ({
+export const readAllCategoryService = async ({
   find = {},
   sort = "",
   limit = "",

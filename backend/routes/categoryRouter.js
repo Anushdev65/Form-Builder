@@ -5,10 +5,9 @@ import { sortFilterPagination } from "../middlewares/sortSelectPage.js";
 
 const categoryRouter = Router();
 
-categoryRouter
-  .route("/")
-  .post(isValidToken, categoryController.createCategory)
-  .get(categoryController.readAllCategory);
+categoryRouter.route("/").post(isValidToken, categoryController.createCategory);
+
+categoryRouter.get("/", categoryController.readAllCategory);
 
 categoryRouter
   .route("/:id")

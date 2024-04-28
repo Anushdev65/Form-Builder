@@ -5,10 +5,9 @@ import { sortFilterPagination } from "../middlewares/sortSelectPage.js";
 
 const tagsRouter = Router();
 
-tagsRouter
-  .route("/")
-  .post(isValidToken, tagsController.createtags)
-  .get(tagsController.readAlltags);
+tagsRouter.route("/").post(isValidToken, tagsController.createtags);
+
+tagsRouter.get("/", tagsController.readAlltags);
 
 tagsRouter
   .route("/:id")
