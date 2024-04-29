@@ -1,17 +1,16 @@
 import Navbar from "../components/NavBar";
 import LoadingWrapper from "../components/LoadingWrapper";
 import React from "react";
-import { IconButton } from "@mui/material";
-import { Tooltip } from "@mui/material";
 import { Modal } from "react-bootstrap";
 import { useState } from "react";
-import { Box } from "@mui/material";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "../styles/homepage.css";
-
+import { useGetAllBlogPostQuery } from "../apiSlice/blogPost";
+import ListBlogPosts from "../components/ListBlogPosts";
 import CreateBlogForm from "../components/CreateBlogForm";
 import { useCreateBlogPostMutation } from "../apiSlice/blogPost";
+
 const HomePage = () => {
   const [showAddBlogPost, setShowAddBlogPost] = useState(false);
   const [activateLoader, setActivateLoader] = React.useState(false);
@@ -23,6 +22,9 @@ const HomePage = () => {
   const handleShowAddBlogPost = () => {
     setShowAddBlogPost(true);
   };
+  const { data: blogPosts = [], loadingBlogPosts } = useGetAllBlogPostQuery();
+
+  console.log(blogPosts);
 
   const [createBlog, { isLoading: loadingCreateBlog }] =
     useCreateBlogPostMutation();
@@ -95,14 +97,9 @@ const HomePage = () => {
           {/* </Tooltip> */}
         </div>
       </div>
-
-      <Box
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-        }}
-      ></Box>
-
+      <div style={{ zIndex: 1 }}>
+        <ListBlogPosts />
+      </div>
       <Modal
         show={showAddBlogPost}
         onHide={handleCloseAddBlogPost}
@@ -110,26 +107,22 @@ const HomePage = () => {
       >
         <div
           style={{
-            width: "800px",
-            height: "5vh",
+            width: "50%",
             backgroundColor: "white",
             borderRadius: "10px",
             margin: "auto",
-            marginTop: "50px",
-            padding: "20px",
           }}
         >
           <LoadingWrapper loading={loadingCreateBlog || activateLoader}>
             <Modal.Header closeButton>
               <Modal.Title>Create Post</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="modal-body">
-              <CreateBlogForm
-                isBusy={loadingCreateBlog}
-                onSubmit={handleAddBlogPost}
-                onCancel={() => setShowAddBlogPost(false)}
-              />
-            </Modal.Body>
+
+            <CreateBlogForm
+              isBusy={loadingCreateBlog}
+              onSubmit={handleAddBlogPost}
+              onCancel={() => setShowAddBlogPost(false)}
+            />
           </LoadingWrapper>
         </div>
       </Modal>

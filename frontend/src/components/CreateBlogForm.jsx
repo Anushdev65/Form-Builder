@@ -8,7 +8,6 @@ import ReactSelect from "./ReactSelect";
 import { useGetAllCategoryQuery } from "../apiSlice/category";
 import { useGetAllTagsQuery } from "../apiSlice/tags";
 import moment from "moment";
-
 import { getUserInfo } from "../localStorage/localStorage";
 
 const INITIAL_STATE = {
@@ -39,23 +38,26 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
 
   const { data: tags = [], loadingTags } = useGetAllTagsQuery();
 
+  console.log(tags);
+
   const _mappedCategories = category?.map((el) => ({
     label: el?.name,
     value: el?._id,
   }));
 
   const _mappedTags = tags?.map((el) => ({
-    label: el?.name,
     value: el?._id,
+    label: el?.name,
   }));
 
+  console.log(_mappedTags);
   const handleOnSubmit = (data) => {
     let _payLoad = {};
 
     _payLoad = {
       ...data,
       category: data?.category?.value,
-      tags: tags?.tags?.value,
+      tags: data?.tags?.value,
     };
 
     if (!_payLoad) return;
@@ -90,7 +92,7 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
                     {...field}
                     placeholder="Input the title"
                     multiline
-                    rows={3}
+                    rows={1}
                   />
                 )}
               />
@@ -98,7 +100,7 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <BaseFormGroup label="content" required>
+            <BaseFormGroup label="Content" required>
               <Controller
                 name="content"
                 control={control}
@@ -107,7 +109,7 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
                   <Editor
                     // {...field}
                     apiKey="zqrsvtmeatld5mag3wlr175d0r1zdo1u8wcr0wvs3re77ow2"
-                    onEditorChange={(content, editor) => {
+                    onEditorChange={(content) => {
                       field.onChange(content);
                     }}
                     initialValue={blogPost ? blogPost.content : ""}
@@ -115,6 +117,7 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
                       height: 250,
                       menubar: false,
                       placeholder: "Enter Message...",
+
                       plugins: [
                         "advlist autolink lists link image charmap print preview anchor",
                         "searchreplace visualblocks code fullscreen",
@@ -123,10 +126,15 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
                         "emoticons",
                       ],
                       toolbar:
-                        "undo redo | formatselect | " +
-                        "bold italic backcolor | alignleft aligncenter " +
-                        "alignright alignjustify | bullist numlist outdent indent | " +
-                        "removeformat | link |emoticons",
+                        "undo redo | formatselect | bold italic backcolor | \
+                      alignleft aligncenter alignright alignjustify | \
+                      bullist numlist outdent indent | removeformat | help",
+                      valid_children: "+body[div],+body[span]", // Allow div and span as children of the root block
+                      content_style:
+                        'body { font-family:"Segoe UI","Montserrat",Helvetica,Arial,sans-serif; font-size:14px }',
+                      force_br_newlines: false,
+                      force_p_newlines: false,
+                      forced_root_block: "",
                       content_style:
                         'body { font-family:"Segoe UI","Montserrat",Helvetica,Arial,sans-serif; font-size:14px }',
                     }}
@@ -137,7 +145,7 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <BaseFormGroup label="author" required>
+            <BaseFormGroup label="Author" required>
               <Controller
                 name="author"
                 control={control}
@@ -148,7 +156,7 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
                     {...field}
                     placeholder="Input the author"
                     multiline
-                    rows={3}
+                    rows={1}
                   />
                 )}
               />
@@ -180,6 +188,10 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
               <Controller
                 name="tags"
                 control={control}
+                defaultValue={tags?.map((tag) => ({
+                  value: tag._id,
+                  label: tag.name,
+                }))}
                 rules={{ required: "Please select tags." }}
                 render={({ field }) => (
                   <ReactSelect
@@ -197,14 +209,8 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
         </Grid>
       </Modal.Body>
 
-      <Modal.Footer style={{ gap: "1rem" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: 10,
-          }}
-        >
+      <Modal.Footer>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
           <Button
             color="primary"
             variant="contained"
