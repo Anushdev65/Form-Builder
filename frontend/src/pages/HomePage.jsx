@@ -1,7 +1,7 @@
 import Navbar from "../components/NavBar";
 import LoadingWrapper from "../components/LoadingWrapper";
 import React from "react";
-import { Modal } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -13,25 +13,20 @@ import { useCreateBlogPostMutation } from "../apiSlice/blogPost";
 
 const HomePage = () => {
   const [showAddBlogPost, setShowAddBlogPost] = useState(false);
-  const [activateLoader, setActivateLoader] = React.useState(false);
+  // const [activateLoader, setActivateLoader] = useState(false);
 
-  const handleCloseAddBlogPost = () => {
-    setShowAddBlogPost(false);
-  };
+  const handleCloseAddBlogPost = () => setShowAddBlogPost(false);
 
-  const handleShowAddBlogPost = () => {
-    setShowAddBlogPost(true);
-  };
-  const { data: blogPosts = [], loadingBlogPosts } = useGetAllBlogPostQuery();
+  const handleShowAddBlogPost = () => setShowAddBlogPost(true);
 
-  console.log(blogPosts);
+  // const { data: blogPosts = [], loadingBlogPosts } = useGetAllBlogPostQuery();
 
   const [createBlog, { isLoading: loadingCreateBlog }] =
     useCreateBlogPostMutation();
 
   const handleAddBlogPost = async (payload) => {
     try {
-      setActivateLoader(true);
+      // setActivateLoader(true);
 
       const newPayLoad = {
         ...payload,
@@ -44,19 +39,19 @@ const HomePage = () => {
             toast.error(res?.error?.data?.message ?? "Couln't add Post!");
 
             setShowAddBlogPost(false);
-            setActivateLoader(false);
+            // setActivateLoader(false);
             return;
           }
           setShowAddBlogPost(false);
-          setActivateLoader(false);
+          // setActivateLoader(false);
           toast.success("Post sucessfully added!");
         }
       });
-    } catch (error) {
+    } catch (err) {
       console.log("error", err);
       toast.error(err?.data?.nessage ?? err?.data ?? "Couldn't add Blog Post");
       setShowAddBlogPost(false);
-      setActivateLoader(false);
+      // setActivateLoader(false);
     }
   };
 
@@ -101,6 +96,7 @@ const HomePage = () => {
         <ListBlogPosts />
       </div>
       <Modal
+        className="content"
         show={showAddBlogPost}
         onHide={handleCloseAddBlogPost}
         backdrop="static"
@@ -113,16 +109,17 @@ const HomePage = () => {
             margin: "auto",
           }}
         >
-          <LoadingWrapper loading={loadingCreateBlog || activateLoader}>
+          <LoadingWrapper loading={loadingCreateBlog}>
             <Modal.Header closeButton>
               <Modal.Title>Create Post</Modal.Title>
             </Modal.Header>
-
-            <CreateBlogForm
-              isBusy={loadingCreateBlog}
-              onSubmit={handleAddBlogPost}
-              onCancel={() => setShowAddBlogPost(false)}
-            />
+            <Modal.Body>
+              <CreateBlogForm
+                isBusy={loadingCreateBlog}
+                onSubmit={handleAddBlogPost}
+                onCancel={() => setShowAddBlogPost(false)}
+              />
+            </Modal.Body>
           </LoadingWrapper>
         </div>
       </Modal>

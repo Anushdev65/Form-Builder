@@ -7,7 +7,6 @@ import BaseFormGroup from "./baseInput/BaseFormGroup";
 import ReactSelect from "./ReactSelect";
 import { useGetAllCategoryQuery } from "../apiSlice/category";
 import { useGetAllTagsQuery } from "../apiSlice/tags";
-import moment from "moment";
 import { getUserInfo } from "../localStorage/localStorage";
 
 const INITIAL_STATE = {
@@ -20,16 +19,14 @@ const INITIAL_STATE = {
 };
 
 const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
-  const { user } = getUserInfo();
-  const userId = user?._id;
+  // const { user } = getUserInfo();
+  // const userId = user?._id;
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-    watch,
     reset,
-    setValue,
   } = useForm({
     defaultValues: INITIAL_STATE,
   });
@@ -78,154 +75,155 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
 
   return (
     <>
-      <Modal.Body>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <BaseFormGroup label="Title" required>
-              <Controller
-                name="title"
-                control={control}
-                rules={{ required: "Please enter a title." }}
-                initialValue={blogPost ? blogPost.title : ""}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    placeholder="Input the title"
-                    multiline
-                    rows={1}
-                  />
-                )}
-              />
-            </BaseFormGroup>
-          </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <BaseFormGroup label="Title" required>
+            <Controller
+              name="title"
+              control={control}
+              rules={{ required: "Please enter a title." }}
+              initialValue={blogPost ? blogPost.title : ""}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  placeholder="Input the title"
+                  multiline
+                  rows={1}
+                  fullWidth
+                  error={!!errors?.title}
+                  helperText={errors?.title?.message}
+                />
+              )}
+            />
+          </BaseFormGroup>
+        </Grid>
 
-          <Grid item xs={12}>
-            <BaseFormGroup label="Content" required>
-              <Controller
-                name="content"
-                control={control}
-                rules={{ required: "Please write the content." }}
-                render={({ field }) => (
-                  <Editor
-                    // {...field}
-                    apiKey="zqrsvtmeatld5mag3wlr175d0r1zdo1u8wcr0wvs3re77ow2"
-                    onEditorChange={(content) => {
-                      field.onChange(content);
-                    }}
-                    initialValue={blogPost ? blogPost.content : ""}
-                    init={{
-                      height: 250,
-                      menubar: false,
-                      placeholder: "Enter Message...",
+        <Grid item xs={12}>
+          <BaseFormGroup label="Content" required>
+            <Controller
+              name="content"
+              control={control}
+              rules={{ required: "Please write the content." }}
+              render={({ field }) => (
+                <Editor
+                  // {...field}
+                  apiKey="zqrsvtmeatld5mag3wlr175d0r1zdo1u8wcr0wvs3re77ow2"
+                  onEditorChange={(content) => {
+                    field.onChange(content);
+                  }}
+                  initialValue={blogPost ? blogPost.content : ""}
+                  init={{
+                    height: 250,
+                    menubar: false,
+                    placeholder: "Enter Message...",
 
-                      plugins: [
-                        "advlist autolink lists link image charmap print preview anchor",
-                        "searchreplace visualblocks code fullscreen",
-                        "insertdatetime media table paste code help wordcount",
-                        "link",
-                        "emoticons",
-                      ],
-                      toolbar:
-                        "undo redo | formatselect | bold italic backcolor | \
+                    plugins: [
+                      "advlist autolink lists link image charmap print preview anchor",
+                      "searchreplace visualblocks code fullscreen",
+                      "insertdatetime media table paste code help wordcount",
+                      "link",
+                      "emoticons",
+                    ],
+                    toolbar:
+                      "undo redo | formatselect | bold italic backcolor | \
                       alignleft aligncenter alignright alignjustify | \
                       bullist numlist outdent indent | removeformat | help",
-                      valid_children: "+body[div],+body[span]", // Allow div and span as children of the root block
-                      content_style:
-                        'body { font-family:"Segoe UI","Montserrat",Helvetica,Arial,sans-serif; font-size:14px }',
-                      force_br_newlines: false,
-                      force_p_newlines: false,
-                      forced_root_block: "",
-                      content_style:
-                        'body { font-family:"Segoe UI","Montserrat",Helvetica,Arial,sans-serif; font-size:14px }',
-                    }}
-                  />
-                )}
-              />
-            </BaseFormGroup>
-          </Grid>
-
-          <Grid item xs={12}>
-            <BaseFormGroup label="Author" required>
-              <Controller
-                name="author"
-                control={control}
-                rules={{ required: "Input author." }}
-                initialValue={blogPost ? blogPost.author : ""}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    placeholder="Input the author"
-                    multiline
-                    rows={1}
-                  />
-                )}
-              />
-            </BaseFormGroup>
-          </Grid>
-
-          <Grid item xs={12}>
-            <BaseFormGroup label="Category" required>
-              <Controller
-                name="category"
-                control={control}
-                rules={{ required: "Please select  category for your blog." }}
-                render={({ field }) => (
-                  <ReactSelect
-                    {...field}
-                    options={_mappedCategories}
-                    isLoading={loadingCategory}
-                    placeholder="Select Category "
-                    error={!!errors?.category}
-                    helperText={errors?.category?.message}
-                  />
-                )}
-              />
-            </BaseFormGroup>
-          </Grid>
-
-          <Grid item xs={12}>
-            <BaseFormGroup label="Tags" required>
-              <Controller
-                name="tags"
-                control={control}
-                defaultValue={tags?.map((tag) => ({
-                  value: tag._id,
-                  label: tag.name,
-                }))}
-                rules={{ required: "Please select tags." }}
-                render={({ field }) => (
-                  <ReactSelect
-                    {...field}
-                    options={_mappedTags}
-                    isLoading={loadingTags}
-                    placeholder="Select Tags"
-                    error={!!errors?.tags}
-                    helperText={errors?.tags?.message}
-                  />
-                )}
-              />
-            </BaseFormGroup>
-          </Grid>
+                    valid_children: "+body[div],+body[span]", // Allow div and span as children of the root block
+                    content_style:
+                      'body { font-family:"Segoe UI","Montserrat",Helvetica,Arial,sans-serif; font-size:14px }',
+                    force_br_newlines: false,
+                    force_p_newlines: false,
+                    forced_root_block: "",
+                    content_style:
+                      'body { font-family:"Segoe UI","Montserrat",Helvetica,Arial,sans-serif; font-size:14px }',
+                  }}
+                />
+              )}
+            />
+          </BaseFormGroup>
         </Grid>
-      </Modal.Body>
 
-      <Modal.Footer>
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
-          <Button
-            color="primary"
-            variant="contained"
-            disabled={isBusy}
-            onClick={handleSubmit((data) =>
-              handleOnSubmit({
-                ...data,
-                ...(!blogPost && { status: "submitted" }),
-              })
-            )}
-          >
-            Submit
-          </Button>
-        </div>
-      </Modal.Footer>
+        <Grid item xs={12}>
+          <BaseFormGroup label="Author" required>
+            <Controller
+              name="author"
+              control={control}
+              rules={{ required: "Input author." }}
+              initialValue={blogPost ? blogPost.author : ""}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  placeholder="Input the author"
+                  multiline
+                  rows={1}
+                  fullWidth
+                  error={!!errors?.author}
+                  helperText={errors?.author?.message}
+                />
+              )}
+            />
+          </BaseFormGroup>
+        </Grid>
+
+        <Grid item xs={12}>
+          <BaseFormGroup label="Category" required>
+            <Controller
+              name="category"
+              control={control}
+              rules={{ required: "Please select  category for your blog." }}
+              render={({ field }) => (
+                <ReactSelect
+                  {...field}
+                  options={_mappedCategories}
+                  isLoading={loadingCategory}
+                  placeholder="Select Category "
+                  error={!!errors?.category}
+                  helperText={errors?.category?.message}
+                />
+              )}
+            />
+          </BaseFormGroup>
+        </Grid>
+
+        <Grid item xs={12}>
+          <BaseFormGroup label="Tags" required>
+            <Controller
+              name="tags"
+              control={control}
+              defaultValue={tags?.map((tag) => ({
+                value: tag._id,
+                label: tag.name,
+              }))}
+              rules={{ required: "Please select tags." }}
+              render={({ field }) => (
+                <ReactSelect
+                  {...field}
+                  options={_mappedTags}
+                  isLoading={loadingTags}
+                  placeholder="Select Tags"
+                  error={!!errors?.tags}
+                  helperText={errors?.tags?.message}
+                />
+              )}
+            />
+          </BaseFormGroup>
+        </Grid>
+      </Grid>
+
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+        <Button
+          color="primary"
+          variant="contained"
+          disabled={isBusy}
+          onClick={handleSubmit((data) =>
+            handleOnSubmit({
+              ...data,
+            })
+          )}
+        >
+          Submit
+        </Button>
+      </div>
     </>
   );
 };

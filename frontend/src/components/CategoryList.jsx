@@ -3,17 +3,9 @@ import AddCategoryModel from "./modal/AddCategoryModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { GenericListSkeleton } from "./GenericListSkeleton";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import {
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  CircularProgress,
-  Fab,
-} from "@mui/material";
+import { Grid, Card, CardContent, Typography, Fab } from "@mui/material";
 import React from "react";
 import { useState } from "react";
-import { useEffect } from "react";
 import { styled } from "@mui/system";
 
 const CenteredContainer = styled("div")({
@@ -32,13 +24,12 @@ const ListContainer = styled("div")({
 
 const AddButtonContainer = styled("div")({
   position: "fixed",
-  bottom: "20px",
-  right: "20px",
+  top: "150px",
+  right: "100px",
 });
 
 const CategoryList = () => {
   const { data: categories, isLoading, isError } = useGetAllCategoryQuery();
-  const [page, setPage] = useState(1);
   const [openAddCategoryModal, setOpenAddCategoryModal] = useState(false);
 
   return (
@@ -71,19 +62,22 @@ const CategoryList = () => {
                 <Typography>Error fetching data</Typography>
               </Grid>
             )}
+
+            <Grid item xs={12}>
+              <AddButtonContainer>
+                <Fab
+                  color="primary"
+                  aria-label="add"
+                  onClick={() => setOpenAddCategoryModal(true)}
+                  size="small"
+                >
+                  <AddBoxIcon />
+                </Fab>
+              </AddButtonContainer>
+            </Grid>
           </Grid>
         </InfiniteScroll>
       </ListContainer>
-      <AddButtonContainer>
-        <Fab
-          color="primary"
-          aria-label="add"
-          onClick={() => setOpenAddCategoryModal(true)}
-          style={{ marginTop: "20px" }}
-        >
-          <AddBoxIcon />
-        </Fab>
-      </AddButtonContainer>
 
       <AddCategoryModel
         open={openAddCategoryModal}

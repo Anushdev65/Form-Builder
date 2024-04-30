@@ -11,7 +11,7 @@ export let createBlogPost = tryCatchWrapper(async (req, res) => {
 
   successResponseData({
     res,
-    message: "Tags created successfully.",
+    message: "Blog post created successfully.",
     statusCode: HttpStatus.CREATED,
     data,
   });
@@ -25,7 +25,7 @@ export let updateBlogPost = tryCatchWrapper(async (req, res) => {
 
   successResponseData({
     res,
-    message: "Tags updated successfully.",
+    message: "Blog post updated successfully.",
     statusCode: HttpStatus.CREATED,
     data,
   });
@@ -38,7 +38,7 @@ export let readSpecificBlogPost = tryCatchWrapper(async (req, res) => {
 
   successResponseData({
     res,
-    message: "Tags read successfully.",
+    message: "BlogPost read successfully.",
     statusCode: HttpStatus.OK,
     data,
   });
@@ -57,10 +57,10 @@ export let readAllBlogPosts = async (req, res) => {
 };
 export let deleteSpecificBlogPost = tryCatchWrapper(async (req, res) => {
   let id = req.params.id;
-  let data = await blogPostService.detailSpecificBlogPostService({ id });
+  let data = await blogPostService.deleteSpecificBlogPostService({ id });
   successResponseData({
     res,
-    message: "tags deleted successfully.",
+    message: "Blog post deleted successfully.",
     statusCode: HttpStatus.OK,
     data,
   });

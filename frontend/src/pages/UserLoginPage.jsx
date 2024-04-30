@@ -57,10 +57,10 @@ export default function UserLoginPage() {
   React.useEffect(() => {
     if (isSuccess) resetForm();
     setLevelInfo({
-      token: data?.data.token,
+      token: data?.data?.token,
     });
-    setUserInfo({ user: data?.data.user });
-    if (data?.data.token) {
+    setUserInfo({ user: data?.data?.user });
+    if (data?.data?.token) {
       navigate("/home");
     }
   }, [resetForm, data, navigate, isSuccess]);
@@ -71,13 +71,13 @@ export default function UserLoginPage() {
         {data ? (
           <MUIToast
             initialValue={true}
-            message={data.message}
+            message={data?.message}
             severity="success"
           />
         ) : error ? (
           <MUIToast
             initialValue={true}
-            message={error.data.message}
+            message={error?.data?.message}
             severity="error"
           />
         ) : (
@@ -124,7 +124,7 @@ export default function UserLoginPage() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sx={{ marginTop: "20px" }}>
                     <TextField
-                      error={Boolean(touched.email && errors.email)}
+                      error={Boolean(touched?.email && errors?.email)}
                       required
                       fullWidth
                       id="email"
@@ -174,8 +174,8 @@ export default function UserLoginPage() {
                       }}
                     />
                     <MUIError
-                      touch={touched.password}
-                      error={errors.password}
+                      touch={touched?.password}
+                      error={errors?.password}
                       value={false}
                     />
                   </Grid>
