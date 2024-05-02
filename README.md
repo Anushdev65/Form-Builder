@@ -12,6 +12,10 @@ This project is designed to streamline the process of creating and managing blog
 - **Authentication:** User authentication is integrated into the project, ensuring secure access to the blog post creation system.
 - **CRUD Operations:** CRUD (Create, Read, Update, Delete) operations are implemented for four different models, offering full control over blog post data.
 
+## Copy paste this url to clone the project
+
+git clone https://Anushdev65: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@github.com/Anushdev65/ramailoTechTask.git
+
 ## Setup
 
 To get started with the project, follow these setup instructions:

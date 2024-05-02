@@ -30,26 +30,25 @@ export const createUser = tryCatchWrapper(async (req, res) => {
       },
     });
 
-    let infoObj = { userId: data._id };
-    let token = await generateToken(infoObj, secretKey, expiryIn);
+    // let infoObj = { userId: data._id };
+    // let token = await generateToken(infoObj, secretKey, expiryIn);
     console.log(user);
-    console.log(token);
 
-    let tokenData = {
-      token: token,
-      userId: data._id,
-      type: tokenTypes.ACCESS,
-      expiration: getTokenExpiryTime(token).toLocaleString(),
-    };
+    // let tokenData = {
+    //   token: token,
+    //   userId: data._id,
+    //   type: tokenTypes.ACCESS,
+    //   expiration: getTokenExpiryTime(token).toLocaleString(),
+    // };
 
-    await tokenService.createTokenService({ data: tokenData });
+    // await tokenService.createTokenService({ data: tokenData });
 
     successResponseData({
       res,
       message: "User created successfully.",
       statusCode: HttpStatus.CREATED,
       data,
-      token,
+      // token,
     });
   }
 });

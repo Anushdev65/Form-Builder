@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Grid, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { Modal } from "react-bootstrap";
@@ -8,7 +8,7 @@ import ReactSelect from "./ReactSelect";
 import { useGetAllCategoryQuery } from "../apiSlice/category";
 import { useGetAllTagsQuery } from "../apiSlice/tags";
 import { getUserInfo } from "../localStorage/localStorage";
-
+import RichTextEditor from "./RichTextEditor";
 const INITIAL_STATE = {
   title: "",
   content: "",
@@ -48,6 +48,7 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
   }));
 
   console.log(_mappedTags);
+
   const handleOnSubmit = (data) => {
     let _payLoad = {};
 
@@ -82,7 +83,7 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
               name="title"
               control={control}
               rules={{ required: "Please enter a title." }}
-              initialValue={blogPost ? blogPost.title : ""}
+              initialValue={blogPost ? blogPost?.title : ""}
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -104,39 +105,13 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
               name="content"
               control={control}
               rules={{ required: "Please write the content." }}
+              initialValue={blogPost ? blogPost?.content : ""}
               render={({ field }) => (
-                <Editor
-                  // {...field}
-                  apiKey="zqrsvtmeatld5mag3wlr175d0r1zdo1u8wcr0wvs3re77ow2"
-                  onEditorChange={(content) => {
-                    field.onChange(content);
-                  }}
-                  initialValue={blogPost ? blogPost.content : ""}
-                  init={{
-                    height: 250,
-                    menubar: false,
-                    placeholder: "Enter Message...",
-
-                    plugins: [
-                      "advlist autolink lists link image charmap print preview anchor",
-                      "searchreplace visualblocks code fullscreen",
-                      "insertdatetime media table paste code help wordcount",
-                      "link",
-                      "emoticons",
-                    ],
-                    toolbar:
-                      "undo redo | formatselect | bold italic backcolor | \
-                      alignleft aligncenter alignright alignjustify | \
-                      bullist numlist outdent indent | removeformat | help",
-                    valid_children: "+body[div],+body[span]", // Allow div and span as children of the root block
-                    content_style:
-                      'body { font-family:"Segoe UI","Montserrat",Helvetica,Arial,sans-serif; font-size:14px }',
-                    force_br_newlines: false,
-                    force_p_newlines: false,
-                    forced_root_block: "",
-                    content_style:
-                      'body { font-family:"Segoe UI","Montserrat",Helvetica,Arial,sans-serif; font-size:14px }',
-                  }}
+                <RichTextEditor
+                  {...field}
+                  placeholder="Input the content to add the blog Post"
+                  error={!!errors?.content}
+                  helperText={errors?.content?.message}
                 />
               )}
             />
@@ -210,9 +185,15 @@ const CreateBlogForm = ({ isBusy = false, blogPost, onSubmit = () => {} }) => {
         </Grid>
       </Grid>
 
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginTop: "1rem",
+        }}
+      >
         <Button
-          color="primary"
+          color="secondary"
           variant="contained"
           disabled={isBusy}
           onClick={handleSubmit((data) =>

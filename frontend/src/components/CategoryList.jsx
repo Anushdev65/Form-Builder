@@ -11,9 +11,9 @@ import { styled } from "@mui/system";
 const CenteredContainer = styled("div")({
   display: "flex",
   justifyContent: "center",
-  alignItems: "center",
-  minHeight: "100vh",
-  height: "100%",
+  // alignItems: "center",
+  // minHeight: "100vh",
+  // height: "100%",
 });
 
 const ListContainer = styled("div")({
@@ -47,7 +47,13 @@ const CategoryList = () => {
               <Grid item key={category._id} xs={12} sm={6} md={4}>
                 <Card>
                   <CardContent>
-                    <Typography variant="h6">{category.name}</Typography>
+                    <Typography
+                      variant="h6"
+                      color="secondary"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      {category.name}
+                    </Typography>
                   </CardContent>
                 </Card>
               </Grid>

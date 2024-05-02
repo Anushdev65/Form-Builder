@@ -1,12 +1,11 @@
 import Navbar from "../components/NavBar";
 import LoadingWrapper from "../components/LoadingWrapper";
 import React from "react";
-import Modal from "react-bootstrap/Modal";
+import { Drawer } from "@mui/material";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "../styles/homepage.css";
-import { useGetAllBlogPostQuery } from "../apiSlice/blogPost";
 import ListBlogPosts from "../components/ListBlogPosts";
 import CreateBlogForm from "../components/CreateBlogForm";
 import { useCreateBlogPostMutation } from "../apiSlice/blogPost";
@@ -95,34 +94,22 @@ const HomePage = () => {
       <div style={{ zIndex: 1 }}>
         <ListBlogPosts />
       </div>
-      <Modal
-        className="content"
-        show={showAddBlogPost}
-        onHide={handleCloseAddBlogPost}
-        backdrop="static"
+      <Drawer
+        anchor="right"
+        open={showAddBlogPost}
+        onClose={handleCloseAddBlogPost}
       >
-        <div
-          style={{
-            width: "50%",
-            backgroundColor: "white",
-            borderRadius: "10px",
-            margin: "auto",
-          }}
-        >
+        <div style={{ width: 600, padding: 16, zIndex: -1 }}>
           <LoadingWrapper loading={loadingCreateBlog}>
-            <Modal.Header closeButton>
-              <Modal.Title>Create Post</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <CreateBlogForm
-                isBusy={loadingCreateBlog}
-                onSubmit={handleAddBlogPost}
-                onCancel={() => setShowAddBlogPost(false)}
-              />
-            </Modal.Body>
+            <h2>Create Post</h2>
+            <CreateBlogForm
+              isBusy={loadingCreateBlog}
+              onSubmit={handleAddBlogPost}
+              onCancel={handleCloseAddBlogPost}
+            />
           </LoadingWrapper>
         </div>
-      </Modal>
+      </Drawer>
     </div>
   );
 };
