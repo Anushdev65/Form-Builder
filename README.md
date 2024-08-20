@@ -39,5 +39,5 @@ frontend: Houses the frontend components of the project, including UI elements a
 Contributing
 
 
-//The deadline is met and this project is incomplete but is scalable.
+// This project is incomplete but is scalable.
 ```
